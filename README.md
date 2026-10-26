@@ -43,48 +43,52 @@ CineScope — учебный многостраничный сайт-катал�
 
 ## Установка и запуск
 
-1. Клонировать репозиторий:
+### 1. Клонирование репозитория
 
-   ```bash
-   git clone https://github.com/MIkhailT1337/CineScope.git
-   cd CineScope
-   ```
+```bash
+git clone https://github.com/MIkhailT1337/CineScope.git
+cd CineScope
+```
 
-2. Установить зависимости:
+### 2. Установка зависимостей
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Создать базу данных PostgreSQL:
+### 3. Создание базы данных
 
-   ```bash
-   createdb cinescope
-   ```
+```bash
+createdb cinescope
+```
 
-4. Создать таблицы и добавить категории:
+### 4. Создание таблиц и добавление категорий
 
-   ```bash
-   psql -d cinescope -f sql/schema.sql
-   ```
+```bash
+psql -d cinescope -f sql/schema.sql
+```
 
-5. Добавить фильмы:
+### 5. Добавление фильмов
 
-   ```bash
-   psql -d cinescope -f sql/movies.sql
-   ```
+```bash
+psql -d cinescope -f sql/movies.sql
+```
 
-6. Создать локальный файл `.env` с параметрами подключения к PostgreSQL, ориентируясь на `.env.example`.
+### 6. Настройка подключения
 
-7. Запустить сервер:
+Создай локальный файл `.env` на основе `.env.example` и укажи параметры подключения к PostgreSQL, соответствующие настройкам на твоём компьютере.
 
-   ```bash
-   node server.js
-   ```
+### 7. Запуск сервера
 
-8. Открыть сайт в браузере:
+```bash
+node server.js
+```
 
-   `http://localhost:3000`
+### 8. Открытие сайта
+
+Открой в браузере:
+
+http://localhost:3000
 
 ## REST API
 
