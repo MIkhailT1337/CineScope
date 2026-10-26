@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>О фильме — CineScope</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        [hidden] {
+    display: none !important;
+}
+        /* Оформление страницы фильма */
+
+        .detail-page {
+            max-width: 1100px;
+            margin: 40px auto 70px;
+            padding: 0 20px;
+        }
+
+        .detail-back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #b8a5ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .detail-back:hover {
+            color: #ffffff;
+        }
+
+        .detail-card {
+            display: grid;
+            grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+            gap: 35px;
+            align-items: start;
+            padding: 25px;
+            border-radius: 20px;
+            background: #1c2035;
+            border: 1px solid #414568;
+        }
+
+        .detail-image {
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #111526;
+        }
+
+        .detail-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .detail-info {
+            min-width: 0;
+            color: #f5f5ff;
+        }
+
+        .detail-label {
+            color: #b9a5ff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .detail-info h1 {
+            margin: 15px 0 20px;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .detail-meta span {
+            padding: 9px 14px;
+            border-radius: 10px;
+            background: #303652;
+            color: #f0efff;
+            font-size: 14px;
+        }
+
+        .detail-meta .detail-rating {
+            color: #ffd36a;
+        }
+
+        .detail-info h2 {
+            margin: 25px 0 12px;
+            font-size: 22px;
+            color: #ffffff;
+        }
+
+        .detail-info p {
+            color: #d1d3e5;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .detail-facts {
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #252a43;
+        }
+
+        .detail-facts p {
+            margin: 8px 0;
+        }
+
+        .detail-facts strong {
+            color: #ffffff;
+        }
+
+        .detail-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 13px 22px;
+            border-radius: 10px;
+            background: #8063e8;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .detail-button:hover {
+            background: #977df2;
+        }
+
+        .detail-error {
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Для телефонов */
+        @media (max-width: 700px) {
+            .detail-page {
+                margin-top: 25px;
+            }
+
+            .detail-card {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                padding: 15px;
+            }
+
+            .detail-info h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ШАПКА -->
+    <header class="site-header">
+        <div class="container header-content">
+
+            <a class="logo" href="index.html">
+                Cine<span>Scope</span>
+            </a>
+
+            <nav class="navigation" aria-label="Основная навигация">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a class="active" href="item.html?movie=interstellar">
+                    О фильме
+                </a>
+                <a href="add.html">Добавить фильм</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- СТРАНИЦА ФИЛЬМА -->
+    <main class="detail-page">
+
+        <a class="detail-back" href="catalog.html">
+            ← Вернуться в каталог
+        </a>
+
+        <article class="detail-card" id="movie-details">
+
+            <!-- ФОТОГРАФИЯ -->
+            <div class="detail-image">
+                <img
+                    id="detail-poster"
+                    src=""
+                    alt="Постер фильма"
+                >
+            </div>
+
+            <!-- ИНФОРМАЦИЯ -->
+            <div class="detail-info">
+
+                <span class="detail-label">
+                    C I N E S C O P E
+                </span>
+
+                <h1 id="detail-title">
+                    Загрузка фильма...
+                </h1>
+
+                <div class="detail-meta">
+                    <span id="detail-year"></span>
+                    <span id="detail-genre"></span>
+                    <span class="detail-rating" id="detail-rating"></span>
+                </div>
+
+                <h2>Описание</h2>
+
+                <p id="detail-description"></p>
+
+                <div class="detail-facts">
+                    <p>
+                        <strong>Режиссёр:</strong>
+                        <span id="detail-director"></span>
+                    </p>
+
+                    <p>
+                        <strong>Страна:</strong>
+                        <span id="detail-country"></span>
+                    </p>
+
+                    <p>
+                        <strong>Продолжительность:</strong>
+                        <span id="detail-duration"></span>
+                    </p>
+                </div>
+
+                <a class="detail-button" href="catalog.html">
+                    Смотреть другие фильмы →
+                </a>
+
+            </div>
+
+        </article>
+
+        <div class="detail-error" id="detail-error" hidden>
+            <h2>Фильм не найден</h2>
+            <p>Вернитесь в каталог и выберите другой фильм.</p>
+            <a class="detail-button" href="catalog.html">
+                Открыть каталог
+            </a>
+        </div>
+
+    </main>
+
+    <!-- ПОДВАЛ -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+
+            <a class="logo" href="index.html">
+                Cine<span>Scope</span>
+            </a>
+
+            <p>
+                Учебный проект по HTML, CSS и JavaScript · 2026
+            </p>
+
+        </div>
+    </footer>
+
+    <!-- ДАННЫЕ ФИЛЬМОВ -->
+    
+<!-- Общий массив фильмов -->
+
+<!-- Динамическая страница фильма -->
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const movieId = params.get("id");
+
+    async function loadMovie() {
+        try {
+            if (!movieId) {
+                throw new Error("ID фильма не указан");
+            }
+
+            const response = await fetch("/api/items/" + movieId);
+
+            if (!response.ok) {
+                throw new Error("Фильм не найден");
+            }
+
+            const movie = await response.json();
+
+            document.title = movie.title + " — CineScope";
+
+            document.getElementById("detail-title").textContent = movie.title;
+            document.getElementById("detail-year").textContent = movie.year;
+            document.getElementById("detail-genre").textContent = movie.category_name;
+            document.getElementById("detail-rating").textContent =
+                "★ " + Number(movie.rating).toFixed(1);
+
+            document.getElementById("detail-description").textContent = movie.description;
+            document.getElementById("detail-director").textContent = movie.director;
+            document.getElementById("detail-country").textContent = movie.country;
+            document.getElementById("detail-duration").textContent = movie.duration;
+
+            const poster = document.getElementById("detail-poster");
+            poster.src = movie.image;
+            poster.alt = "Постер фильма " + movie.title;
+
+        } catch (error) {
+            console.error(error);
+
+            document.getElementById("movie-details").hidden = true;
+            document.getElementById("detail-error").hidden = false;
+            document.title = "Фильм не найден — CineScope";
+        }
+    }
+
+    loadMovie();
+</script>
+
+</body>
+</html>

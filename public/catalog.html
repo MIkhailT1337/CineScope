@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineScope — Каталог фильмов</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Дополнительное оформление сортировки */
+
+        .filter-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .filter-field {
+            flex: 1 1 210px;
+            min-width: 0;
+        }
+
+        .filter-field input,
+        .filter-field select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #no-results {
+            padding: 30px 0;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-content">
+
+        <a class="logo" href="index.html">
+            Cine<span>Scope</span>
+        </a>
+
+        <nav class="navigation" aria-label="Основная навигация">
+            <a href="index.html">Главная</a>
+            <a class="active" href="catalog.html">Каталог</a>
+            <a href="movies.html">О фильмах</a>
+            <a href="add.html">Добавить фильм</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container page-content">
+
+    <section class="page-heading">
+        <span class="eyebrow">ИССЛЕДУЙ МИР КИНО</span>
+        <h1>Каталог фильмов</h1>
+        <p>Подборка фильмов разных жанров и эпох.</p>
+    </section>
+
+    <!-- ПОИСК, ФИЛЬТР И СОРТИРОВКА -->
+
+    <section class="filter-panel" aria-label="Поиск и фильтры">
+
+        <div class="filter-field">
+            <label for="movie-search">Название фильма</label>
+
+            <input
+                type="search"
+                id="movie-search"
+                placeholder="Например, Интерстеллар"
+            >
+        </div>
+
+        <div class="filter-field">
+            <label for="movie-genre">Жанр</label>
+
+            <select id="movie-genre">
+    <option value="">Все жанры</option>
+    <option value="1">Фантастика</option>
+    <option value="2">Драма</option>
+    <option value="3">Триллер</option>
+    <option value="4">Боевик</option>
+    <option value="5">Приключения</option>
+    <option value="6">Детектив</option>
+</select>
+        </div>
+
+        <!-- НОВАЯ СОРТИРОВКА -->
+
+        <div class="filter-field">
+            <label for="movie-sort">Сортировка по оценке</label>
+
+            <select id="movie-sort">
+                <option value="default">По умолчанию</option>
+                <option value="desc">По убыванию ↓</option>
+                <option value="asc">По возрастанию ↑</option>
+            </select>
+        </div>
+
+    </section>
+
+    <!-- СЧЁТЧИК ФИЛЬМОВ -->
+
+    <div class="catalog-topline">
+        <h2>Все фильмы</h2>
+        <span id="movie-count">6 фильмов</span>
+    </div>
+
+    <!-- КАТАЛОГ -->
+
+<section class="movie-grid" id="movie-grid"></section>
+
+<!-- СООБЩЕНИЕ, ЕСЛИ НИЧЕГО НЕ НАЙДЕНО -->
+
+    <p id="no-results" style="display: none;">
+        По вашему запросу фильмы не найдены.
+    </p>
+
+    <!-- ДОБАВЛЕНИЕ ФИЛЬМА -->
+
+    <section class="catalog-cta">
+
+        <h2>Не нашли нужный фильм?</h2>
+
+        <p>Добавьте его в наш каталог через специальную форму.</p>
+
+        <a class="button button-primary" href="add.html">
+            Добавить фильм →
+        </a>
+
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-content">
+
+        <a class="logo" href="index.html">
+            Cine<span>Scope</span>
+        </a>
+
+        <p>Учебный проект по HTML, CSS и JavaScript · 2026</p>
+
+    </div>
+</footer>
+
+<!-- JAVASCRIPT -->
+
+<!-- ВСПЛЫВАЮЩЕЕ ОКНО -->
+<div id="movie-not-found-modal" class="movie-modal" hidden>
+    <div class="movie-modal-box" role="dialog"
+         aria-modal="true"
+         aria-labelledby="modal-title">
+
+        <button type="button" id="modal-close"
+                class="modal-close" aria-label="Закрыть">
+            ×
+        </button>
+
+        <div class="modal-icon">🎬</div>
+
+        <h2 id="modal-title">Фильм не найден</h2>
+
+        <p>
+            К сожалению, фильм не найден.
+            Хотите добавить фильм в библиотеку?
+        </p>
+
+        <div class="modal-actions">
+            <a href="add.html" class="button button-primary">
+                Добавить фильм
+            </a>
+
+            <button type="button" id="modal-cancel"
+                    class="button modal-cancel">
+                Отмена
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .movie-modal[hidden] {
+        display: none;
+    }
+
+    .movie-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .movie-modal-box {
+        position: relative;
+        width: 100%;
+        max-width: 430px;
+        padding: 35px 28px;
+        border-radius: 20px;
+        border: 1px solid #555079;
+        background: #1c2035;
+        color: #ffffff;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        border: none;
+        background: transparent;
+        color: #c8c4e8;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    .modal-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+    }
+
+    .movie-modal-box h2 {
+        margin-bottom: 12px;
+        color: #ffffff;
+    }
+
+    .movie-modal-box p {
+        color: #d1d3e5;
+        line-height: 1.6;
+    }
+
+    .modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .modal-cancel {
+        background: #303652;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("movie-search");
+    const genreSelect = document.getElementById("movie-genre");
+    const sortSelect = document.getElementById("movie-sort");
+    const movieGrid = document.getElementById("movie-grid");
+    const movieCount = document.getElementById("movie-count");
+    const noResults = document.getElementById("no-results");
+
+    // Всплывающее окно, если фильм не найден
+    const modal = document.getElementById("movie-not-found-modal");
+    const modalClose = document.getElementById("modal-close");
+    const modalCancel = document.getElementById("modal-cancel");
+
+    let modalShownForQuery = "";
+    let movies = [];
+
+async function loadMovies() {
+    movieCount.textContent = "Загрузка фильмов...";
+
+    try {
+        const response = await fetch("/api/items");
+
+        if (!response.ok) {
+            throw new Error("Не удалось загрузить фильмы");
+        }
+
+        movies = await response.json();
+
+        updateCatalog();
+    } catch (error) {
+        console.error(error);
+        movieCount.textContent = "Ошибка загрузки";
+        noResults.textContent = "Не удалось загрузить фильмы. Попробуйте обновить страницу.";
+        noResults.style.display = "block";
+    }
+}
+
+    function closeMovieModal() {
+        modal.hidden = true;
+    }
+
+    modalClose.addEventListener("click", closeMovieModal);
+    modalCancel.addEventListener("click", closeMovieModal);
+
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeMovieModal();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeMovieModal();
+        }
+    });
+
+    function checkMovieNotFound(resultCount) {
+        const query = searchInput.value.trim().toLowerCase();
+
+        // Не показываем окно при пустом поиске
+        if (query === "") {
+            modalShownForQuery = "";
+            closeMovieModal();
+            return;
+        }
+
+        // Не показываем окно, если фильм найден
+        if (resultCount > 0) {
+            modalShownForQuery = "";
+            closeMovieModal();
+            return;
+        }
+
+        // Не показываем окно повторно для того же запроса
+        if (modalShownForQuery === query) {
+            return;
+        }
+
+        modalShownForQuery = query;
+        modal.hidden = false;
+    }
+
+    // Правильное окончание слова "фильм"
+    function movieWord(number) {
+        if (number % 10 === 1 && number % 100 !== 11) {
+            return "фильм";
+        }
+
+        if (
+            number % 10 >= 2 &&
+            number % 10 <= 4 &&
+            (number % 100 < 12 || number % 100 > 14)
+        ) {
+            return "фильма";
+        }
+
+        return "фильмов";
+    }
+
+    // Создание одной карточки фильма
+    function createMovieCard(movie) {
+
+        const card = document.createElement("article");
+        card.className = "movie-card";
+
+        const posterLink = document.createElement("a");
+        posterLink.className = "poster";
+        posterLink.href = "item.html?id=" + movie.id;
+        posterLink.setAttribute(
+            "aria-label",
+            "Подробнее о фильме " + movie.title
+        );
+
+        const image = document.createElement("img");
+        image.src = movie.image;
+        image.alt = "Постер фильма " + movie.title;
+
+        // Изображение заполняет область постера
+        image.style.display = "block";
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+
+        posterLink.appendChild(image);
+
+        const movieInfo = document.createElement("div");
+        movieInfo.className = "movie-info";
+
+        const movieMeta = document.createElement("div");
+        movieMeta.className = "movie-meta";
+
+        const year = document.createElement("span");
+        year.textContent = movie.year;
+
+        const rating = document.createElement("span");
+        rating.className = "rating";
+        rating.textContent = "★ " + Number(movie.rating).toFixed(1);
+
+        movieMeta.appendChild(year);
+        movieMeta.appendChild(rating);
+
+        const title = document.createElement("h3");
+        title.textContent = movie.title;
+
+        const genre = document.createElement("p");
+        genre.textContent = movie.category_name;
+
+        const detailsLink = document.createElement("a");
+        detailsLink.className = "text-link";
+        detailsLink.href = "item.html?id=" + movie.id;
+        detailsLink.textContent = "Подробнее →";
+
+        movieInfo.appendChild(movieMeta);
+        movieInfo.appendChild(title);
+        movieInfo.appendChild(genre);
+        movieInfo.appendChild(detailsLink);
+
+        card.appendChild(posterLink);
+        card.appendChild(movieInfo);
+
+        return card;
+    }
+
+    // Поиск, фильтрация и сортировка
+    function updateCatalog() {
+
+        const searchText = searchInput.value.toLowerCase().trim();
+        const selectedGenre = genreSelect.value;
+        const selectedSort = sortSelect.value;
+
+        // Берём фильмы из массива movies в файле movies.js
+        let filteredMovies = movies.filter(function (movie) {
+
+            const matchesSearch = movie.title
+                .toLowerCase()
+                .includes(searchText);
+
+            const matchesGenre =
+                selectedGenre === "" ||
+                movie.category_id === Number(selectedGenre);
+
+            return matchesSearch && matchesGenre;
+        });
+
+        // Сортируем найденные фильмы
+        if (selectedSort === "desc") {
+            filteredMovies.sort(function (a, b) {
+                return b.rating - a.rating;
+            });
+        }
+
+        if (selectedSort === "asc") {
+            filteredMovies.sort(function (a, b) {
+                return a.rating - b.rating;
+            });
+        }
+
+        // Очищаем старые карточки
+        movieGrid.innerHTML = "";
+
+        // Создаём новые карточки автоматически
+        filteredMovies.forEach(function (movie) {
+            const card = createMovieCard(movie);
+            movieGrid.appendChild(card);
+        });
+
+        // Обновляем количество фильмов
+        const count = filteredMovies.length;
+
+        movieCount.textContent =
+            count + " " + movieWord(count);
+
+        // Сообщение, если фильмы не найдены
+        noResults.style.display =
+            count === 0 ? "block" : "none";
+    // Сообщение, если фильмы не найдены
+noResults.style.display =
+    count === 0 ? "block" : "none";
+
+// Показываем всплывающую плашку
+checkMovieNotFound(count);
+}
+
+    // Обновляем каталог при изменениях
+   
+let searchTimer;
+
+searchInput.addEventListener("input", function () {
+    // Отменяем предыдущий таймер
+    clearTimeout(searchTimer);
+
+    // Сразу обновляем карточки фильмов
+    updateCatalog();
+
+    // Пока пользователь печатает, скрываем плашку
+    modal.hidden = true;
+
+    // Через 3 секунды проверяем результат поиска
+    searchTimer = setTimeout(function () {
+        const query = searchInput.value.trim();
+
+        if (query !== "" && movieGrid.children.length === 0) {
+            modal.hidden = false;
+        }
+    }, 1000);
+});
+    genreSelect.addEventListener("change", updateCatalog);
+    sortSelect.addEventListener("change", updateCatalog);
+
+    // Показываем фильмы при открытии страницы
+loadMovies();
+
+});
+</script>
+
+</body>
+</html>

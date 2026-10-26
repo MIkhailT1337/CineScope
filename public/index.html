@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CineScope — каталог фильмов с описаниями, жанрами и рейтингами.">
+
+    <title>CineScope — мир кино</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+    /* Горизонтальные изображения популярных фильмов */
+    .popular-poster {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border-radius: 14px;
+        background: #1c2232;
+        text-decoration: none;
+    }
+
+    .popular-poster img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.3s ease;
+    }
+
+    .popular-poster:hover img {
+        transform: scale(1.05);
+    }
+
+    .popular-poster:focus-visible {
+        outline: 3px solid #7c9cff;
+        outline-offset: 4px;
+    }
+
+    /* Три карточки в ряд */
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        align-items: start;
+    }
+
+    .movie-card {
+        min-width: 0;
+    }
+
+    /* На телефоне — одна карточка в ряд */
+    @media (max-width: 700px) {
+        .movie-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-content">
+        <a class="logo" href="index.html">
+            Cine<span>Scope</span>
+        </a>
+
+        <nav class="navigation" aria-label="Основная навигация">
+            <a class="active" href="index.html">Главная</a>
+            <a href="catalog.html">Каталог</a>
+           <a href="movies.html">О фильмах</a>
+            <a href="add.html">Добавить фильм</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <!-- ГЛАВНЫЙ БАННЕР -->
+    <section class="hero">
+        <div class="container hero-content">
+
+            <div class="hero-text">
+                <span class="eyebrow">ТВОЙ МИР КИНО</span>
+
+                <h1>
+                    Найди фильм<br>
+                    под своё настроение
+                </h1>
+
+                <p>
+                    Исследуй мир кино, открывай новые истории
+                    и выбирай, что посмотреть сегодня вечером.
+                </p>
+
+                <a class="button button-primary" href="catalog.html">
+                    Смотреть каталог →
+                </a>
+            </div>
+
+            <div class="hero-visual" aria-hidden="true">
+                <div class="hero-orbit orbit-one"></div>
+                <div class="hero-orbit orbit-two"></div>
+
+                <div class="hero-movie">
+                    <span>✦</span>
+                    <strong>
+                        YOUR NEXT<br>
+                        FAVORITE FILM
+                    </strong>
+                    <small>DISCOVER SOMETHING NEW</small>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ПОПУЛЯРНЫЕ ФИЛЬМЫ -->
+    <section class="section container">
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">ВЫБОР РЕДАКЦИИ</span>
+                <h2>Популярные фильмы</h2>
+            </div>
+
+            <a class="text-link" href="catalog.html">
+                Весь каталог →
+            </a>
+        </div>
+
+        <div class="movie-grid">
+
+            <!-- ИНТЕРСТЕЛЛАР -->
+            <article class="movie-card">
+
+                <a class="popular-poster"
+                   href="item.html?movie=interstellar"
+                   aria-label="Подробнее о фильме Интерстеллар">
+
+                    <img
+                        src="images/interstellar.jpg"
+                        alt="Постер фильма Интерстеллар"
+                        onerror="this.onerror=null; this.src='images/interstellar.png';">
+                </a>
+
+                <div class="movie-info">
+
+                    <div class="movie-meta">
+                        <span>2014</span>
+                        <span class="rating">★ 8.7</span>
+                    </div>
+
+                    <h3>Интерстеллар</h3>
+                    <p>Фантастика · Драма</p>
+
+                    <a class="text-link"
+                       href="item.html?movie=interstellar">
+                        Подробнее →
+                    </a>
+
+                </div>
+            </article>
+
+            <!-- НАЧАЛО -->
+            <article class="movie-card">
+
+                <a class="popular-poster"
+                   href="item.html?movie=inception"
+                   aria-label="Подробнее о фильме Начало">
+
+                    <img
+                        src="images/inception.jpeg"
+                        alt="Постер фильма Начало"
+                        onerror="this.onerror=null; this.src='images/inception.png';">
+                </a>
+
+                <div class="movie-info">
+
+                    <div class="movie-meta">
+                        <span>2010</span>
+                        <span class="rating">★ 8.8</span>
+                    </div>
+
+                    <h3>Начало</h3>
+                    <p>Фантастика · Триллер</p>
+
+                    <a class="text-link"
+                       href="item.html?movie=inception">
+                        Подробнее →
+                    </a>
+
+                </div>
+            </article>
+
+            <!-- ПОБЕГ ИЗ ШОУШЕНКА -->
+            <article class="movie-card">
+
+                <a class="popular-poster"
+                   href="item.html?movie=shawshank"
+                   aria-label="Подробнее о фильме Побег из Шоушенка">
+
+                    <img
+                        src="images/shawshank.jpg"
+                        alt="Постер фильма Побег из Шоушенка"
+                        onerror="this.onerror=null; this.src='images/shawshank.png';">
+                </a>
+
+                <div class="movie-info">
+
+                    <div class="movie-meta">
+                        <span>1994</span>
+                        <span class="rating">★ 9.3</span>
+                    </div>
+
+                    <h3>Побег из Шоушенка</h3>
+                    <p>Драма</p>
+
+                    <a class="text-link"
+                       href="item.html?movie=shawshank">
+                        Подробнее →
+                    </a>
+
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- О ПРОЕКТЕ -->
+    <section class="about-section">
+
+        <div class="container about-content">
+
+            <div>
+                <span class="eyebrow">О ПРОЕКТЕ</span>
+
+                <h2>
+                    Кино — это больше,<br>
+                    чем просто просмотр
+                </h2>
+            </div>
+
+            <div>
+                <p>
+                    CineScope — учебный проект для любителей кино.
+                    Здесь можно знакомиться с фильмами, изучать их
+                    описания и исследовать разные жанры.
+                </p>
+
+                <a class="button button-outline" href="add.html">
+                    Предложить фильм
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- ПОДВАЛ САЙТА -->
+<footer class="site-footer">
+
+    <div class="container footer-content">
+
+        <a class="logo" href="index.html">
+            Cine<span>Scope</span>
+        </a>
+
+        <p>Учебный проект по HTML и CSS · 2026</p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

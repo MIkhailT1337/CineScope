@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineScope — добавить фильм</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container header-content">
+        <a class="logo" href="index.html">Cine<span>Scope</span></a>
+
+        <nav class="navigation" aria-label="Основная навигация">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог</a>
+            <a href="movies.html">О фильмах</a>
+            <a class="active" href="add.html">Добавить фильм</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container page-content">
+
+    <section class="page-heading">
+        <span class="eyebrow">ПОПОЛНЯЙ КОЛЛЕКЦИЮ</span>
+        <h1>Добавить фильм</h1>
+        <p>
+            Заполни информацию о фильме.
+            Все поля со звёздочкой обязательны.
+        </p>
+    </section>
+
+    <div class="form-layout">
+
+        <form class="movie-form" action="#" method="get">
+
+            <div class="form-group">
+                <label for="title">Название фильма *</label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Например, Интерстеллар"
+                    minlength="2"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="genre">Жанр *</label>
+
+                    <select id="genre" name="genre" required>
+    <option value="">Выбери жанр</option>
+    <option value="1">Фантастика</option>
+    <option value="2">Драма</option>
+    <option value="3">Триллер</option>
+    <option value="4">Боевик</option>
+    <option value="5">Приключения</option>
+    <option value="6">Детектив</option>
+</select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Год выпуска *</label>
+
+                    <input
+                        type="number"
+                        id="year"
+                        name="year"
+                        min="1888"
+                        max="2026"
+                        placeholder="2020"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="duration">Продолжительность (мин.)</label>
+
+                    <input
+                        type="number"
+                        id="duration"
+                        name="duration"
+                        min="1"
+                        max="600"
+                        placeholder="120"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">Рейтинг (0–10)</label>
+
+                    <input
+                        type="number"
+                        id="rating"
+                        name="rating"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        placeholder="8.5"
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание фильма *</label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="6"
+                    minlength="10"
+                    maxlength="2000"
+                    placeholder="Напиши несколько предложений о сюжете фильма..."
+                    required
+                ></textarea>
+            </div>
+
+           <p class="form-note">
+    * Обязательные поля. После отправки формы
+    фильм сохраняется в базе данных PostgreSQL
+    и появляется в каталоге CineScope.
+</p>
+
+            <button class="button button-primary submit-button" type="submit">
+                Добавить фильм в каталог →
+            </button>
+
+        </form>
+
+        <aside class="form-aside">
+            <div class="aside-icon">✦</div>
+            <h2>Каждая история важна</h2>
+
+            <p>
+                Укажи название, жанр, год выпуска и описание,
+                чтобы подготовить полноценную карточку фильма.
+            </p>
+
+            <div class="aside-tip">
+                <strong>Совет</strong>
+                <p>
+                    Пиши понятное описание: расскажи о сюжете,
+                    не раскрывая главные сюжетные повороты.
+                </p>
+            </div>
+        </aside>
+
+    </div>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-content">
+        <a class="logo" href="index.html">Cine<span>Scope</span></a>
+        <p>Учебный проект по HTML и CSS · 2026</p>
+    </div>
+</footer>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    
+
+    const form = document.querySelector(".movie-form");
+
+    form.addEventListener("submit", async function (event) {
+
+        // Запрещаем перезагрузку страницы
+        event.preventDefault();
+
+        // Получаем данные из формы
+        const title = document.getElementById("title").value.trim();
+        const genreSelect = document.getElementById("genre");
+        const genre = genreSelect.options[genreSelect.selectedIndex].text;
+
+        const year = Number(document.getElementById("year").value);
+        const duration = document.getElementById("duration").value;
+        const rating = document.getElementById("rating").value;
+        const description = document.getElementById("description").value.trim();
+
+        // Проверяем название
+        if (title.length < 2) {
+            alert("Название фильма должно содержать минимум 2 символа.");
+            return;
+        }
+
+        // Проверяем жанр
+        if (genreSelect.value === "") {
+            alert("Выбери жанр фильма.");
+            return;
+        }
+
+        // Проверяем год
+        if (year < 1888 || year > 2026) {
+            alert("Укажи корректный год выпуска.");
+            return;
+        }
+
+        // Проверяем описание
+        if (description.length < 10) {
+            alert("Описание должно содержать минимум 10 символов.");
+            return;
+        }
+
+        // Проверяем продолжительность, если она указана
+        if (duration !== "" && (Number(duration) < 1 || Number(duration) > 600)) {
+            alert("Продолжительность должна быть от 1 до 600 минут.");
+            return;
+        }
+
+        // Проверяем рейтинг, если он указан
+        if (rating !== "" && (Number(rating) < 0 || Number(rating) > 10)) {
+            alert("Рейтинг должен быть от 0 до 10.");
+            return;
+        }
+// Отправляем фильм в PostgreSQL через REST API
+try {
+    const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: title,
+            description: description,
+            category_id: Number(genreSelect.value),
+            year: year,
+            rating: rating === "" ? null : Number(rating),
+            duration: duration === "" ? null : duration + " мин."
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error("Не удалось сохранить фильм");
+    }
+
+    alert("Фильм успешно добавлен в PostgreSQL!");
+
+} catch (error) {
+    console.error(error);
+    alert("Ошибка сохранения фильма. Попробуй ещё раз.");
+    return;
+}
+        // Создаём или находим блок предварительного просмотра
+        let preview = document.getElementById("movie-preview");
+
+        if (!preview) {
+            preview = document.createElement("section");
+            preview.id = "movie-preview";
+            preview.style.marginTop = "35px";
+            preview.style.padding = "25px";
+            preview.style.borderRadius = "16px";
+            preview.style.background = "#202638";
+            preview.style.border = "1px solid #555d75";
+
+            form.insertAdjacentElement("afterend", preview);
+        }
+
+        // Очищаем предыдущий просмотр
+        preview.replaceChildren();
+
+        // Заголовок предпросмотра
+        const heading = document.createElement("h2");
+        heading.textContent = "Предварительный просмотр фильма";
+
+        const movieTitle = document.createElement("h3");
+        movieTitle.textContent = title;
+
+        const movieInfo = document.createElement("p");
+        movieInfo.textContent = year + " · " + genre;
+
+        const movieRating = document.createElement("p");
+        movieRating.textContent =
+            rating !== "" ? "★ Рейтинг: " + rating : "Рейтинг не указан";
+
+        const movieDuration = document.createElement("p");
+        movieDuration.textContent =
+            duration !== "" ? "Продолжительность: " + duration + " мин." : "";
+
+        const movieDescription = document.createElement("p");
+        movieDescription.textContent = description;
+
+        const message = document.createElement("p");
+        message.textContent = "✓ Данные успешно проверены. Это предварительный просмотр — фильм пока не сохранён в каталоге.";
+        message.style.color = "#8ee0b2";
+
+        // Добавляем элементы на страницу
+        preview.appendChild(heading);
+        preview.appendChild(movieTitle);
+        preview.appendChild(movieInfo);
+        preview.appendChild(movieRating);
+        preview.appendChild(movieDuration);
+        preview.appendChild(movieDescription);
+        preview.appendChild(message);
+
+        // Прокручиваем страницу к результату
+        preview.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    });
+
+});
+</script>
+
+</body>
+</html>
